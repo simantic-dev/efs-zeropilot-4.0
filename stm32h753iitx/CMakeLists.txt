@@ -44,22 +44,18 @@ set(FATFS_SRC ${FATFS}/ff.c ${FATFS}/diskio.c ${FATFS}/ff_gen_drv.c ${FATFS}/opt
 file(GLOB DRONECAN_SRC ${ZP_ROOT}/external/dronecan/generated/src/*.c)
 list(APPEND DRONECAN_SRC ${ZP_ROOT}/external/dronecan/libcanard/canard.c)
 
-# CMSIS-DSP: CubeIDE's build pulls these in via its own include paths but never
-# compiles the sources -- build the aggregate translation units for the
-# function groups ZeroPilot actually references. Without these the link fails
-# with "undefined reference to arm_mat_init_f32" / "dangerous relocation:
-# unsupported relocation".
+# CMSIS-DSP: CubeIDE compiles these through Eclipse linked resources in
+# .project (mapped virtually under boardfiles/), which a command-line build
+# does not see -- so list the same seven aggregate translation units here.
+# Keep this in sync with the <link> entries in .project.
 set(DSP ${ZP_ROOT}/external/CMSIS-DSP/Source)
 set(DSP_SRC
     ${DSP}/BasicMathFunctions/BasicMathFunctions.c
     ${DSP}/CommonTables/CommonTables.c
     ${DSP}/ComplexMathFunctions/ComplexMathFunctions.c
     ${DSP}/FastMathFunctions/FastMathFunctions.c
-    ${DSP}/FilteringFunctions/FilteringFunctions.c
     ${DSP}/MatrixFunctions/MatrixFunctions.c
     ${DSP}/QuaternionMathFunctions/QuaternionMathFunctions.c
-    ${DSP}/StatisticsFunctions/StatisticsFunctions.c
-    ${DSP}/SupportFunctions/SupportFunctions.c
     ${DSP}/TransformFunctions/TransformFunctions.c)
 
 add_executable(${PROJECT_NAME}
