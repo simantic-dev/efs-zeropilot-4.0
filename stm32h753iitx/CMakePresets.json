@@ -1,0 +1,64 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "default",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "toolchainFile": "${sourceDir}/stm32h753iitx.cmake",
+            "cacheVariables": {
+            }
+        },
+        {
+            "name": "h753iit-plane-debug",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VEHICLE": "PLANE"
+            }
+        },
+        {
+            "name": "h753iit-plane-release",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "VEHICLE": "PLANE"
+            }
+        },
+        {
+            "name": "h753iit-quad-debug",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VEHICLE": "QUADCOPTER"
+            }
+        },
+        {
+            "name": "h753iit-quad-release",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "VEHICLE": "QUADCOPTER"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "h753iit-plane-debug",
+            "configurePreset": "h753iit-plane-debug"
+        },
+        {
+            "name": "h753iit-plane-release",
+            "configurePreset": "h753iit-plane-release"
+        },
+        {
+            "name": "h753iit-quad-debug",
+            "configurePreset": "h753iit-quad-debug"
+        },
+        {
+            "name": "h753iit-quad-release",
+            "configurePreset": "h753iit-quad-release"
+        }
+    ]
+}
