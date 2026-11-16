@@ -1,0 +1,13 @@
+#!/bin/sh
+# Boots the ZeroPilot 4.0 plane firmware on the simulated STM32H753 with the peers in sim/. Usage: ./demo [virtual-seconds]
+# Needs `sim` on PATH (or SIM=/path/to/sim) and the firmware built with sim/build.sh. sim/run.sh is the PASS/FAIL check.
+set -eu
+SIM="${SIM:-sim}"
+cd "$(dirname "$0")/sim"
+command -v "$SIM" >/dev/null || { echo "sim not found. Install it: curl -fsSL https://simantic.com/install | sh" >&2; exit 1; }
+[ -f ../stm32h753iitx/build-h753/stm32h753iitx.elf ] || { echo "firmware missing: run sim/build.sh first" >&2; exit 1; }
+mkdir -p out
+./make_card.sh out/card.img
+"$SIM" run --scenario scenario.yaml --timeout "${1:-20}" --output out/out.txt --frames out/frames.txt 2>&1 \
+  | grep --line-buffered -E 'RC Connected|allocated node id|MAVLINK (HEARTBEAT|ATTITUDE|RAW_IMU|GPS_RAW_INT|RC_CHANNELS|SERVO_OUTPUT_RAW)|ARMED|Elapsed'
+python3 view.py out/out.txt | awk '/^STATUSTEXT$/{exit} 1'

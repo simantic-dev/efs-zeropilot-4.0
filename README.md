@@ -7,6 +7,35 @@ Custom flight controller autopilot system by WARG (Waterloo Aerial Robotics Grou
 
 **Documentation**: https://uwarg-docs.atlassian.net/wiki/spaces/ZP/pages/2668101634/ZeroPilot4.0+Design
 
+## Run it in the simulator
+
+```sh
+git clone https://github.com/simantic-dev/efs-zeropilot-4.0 && cd efs-zeropilot-4.0
+sim/build.sh    # once: builds the plane firmware
+./demo          # boots it on the simulated STM32H753 with every peer attached
+```
+
+You need Simantic's `sim` 0.10.0 or newer on your `PATH`:
+
+```sh
+curl -fsSL https://simantic.com/install | sh
+```
+
+Also needed: the Arm GNU toolchain (`arm-none-eabi-gcc`), `ninja`, `mtools` (`brew install mtools`), and
+cmake 3.x. Upstream `zeropilot4.0/hwbuild.bash` passes `-Werror` to cmake, which cmake 4 rejects, so put a
+3.x cmake first on `PATH` (for example a venv with `pip install "cmake>=3.28,<4"`). `sim/run.sh` is the
+PASS/FAIL check; `./demo [seconds]` is the same run with the boot log streamed.
+
+![Boot and decoded telemetry in the simulator](media/zeropilot-boot.gif)
+
+The firmware is the unmodified plane build of these sources, running FreeRTOS on a simulated STM32H753IITX.
+The parts around it are models: the GPS receivers, IMUs, barometer, power module, rangefinder, RC receiver,
+DroneCAN node, safety button and SD card are Python peers in `sim/`, modelled at transaction level (the bytes
+on each bus, not electrical behaviour). The ground station and servo outputs are Python too, and the plant is
+kinematic, so there is no aerodynamics. `sim` is Simantic's proprietary simulator, not open source. The
+`SCALED_PRESSURE` row reads 0.0 hPa in this run; that is a known gap in the sim, listed in
+[`sim/README.md`](sim/README.md).
+
 ## Repo Setup
 
 Clone the repository and initialize submodules:
