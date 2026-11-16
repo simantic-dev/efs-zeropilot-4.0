@@ -1,0 +1,6 @@
+// SD card on SDMMC1. The card writes accepted blocks back to its image file (run.sh makes a blank
+// FAT16 volume there before each run), so what the firmware logs can be read back with mtools.
+// The path is relative to the directory run.sh runs in (sim/).
+card: SD.SDCard @ sdmmc1
+    imageFile: "out/card.img"
+    capacity: 0x1000000

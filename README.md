@@ -1,5 +1,8 @@
 # ZeroPilot 4.0
 
+> **This fork:** [`sim/`](sim/README.md) runs this firmware on a simulated STM32H753 with every sensor,
+> the SD card and a ground station attached, no hardware needed.
+
 Custom flight controller autopilot system by WARG (Waterloo Aerial Robotics Group).
 
 **Documentation**: https://uwarg-docs.atlassian.net/wiki/spaces/ZP/pages/2668101634/ZeroPilot4.0+Design

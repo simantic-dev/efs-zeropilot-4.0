@@ -37,9 +37,10 @@ file(GLOB FREERTOS_SRC ${FR}/*.c ${FR}/CMSIS_RTOS_V2/*.c)
 list(APPEND FREERTOS_SRC ${FR}/portable/GCC/ARM_CM4F/port.c ${FR}/portable/MemMang/heap_4.c)
 
 set(FATFS ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/Third_Party/FatFs/src)
-set(FATFS_SRC ${FATFS}/ff.c ${FATFS}/diskio.c ${FATFS}/ff_gen_drv.c ${FATFS}/option/syscall.c
+set(FATFS_SRC ${FATFS}/ff.c ${FATFS}/diskio.c ${FATFS}/ff_gen_drv.c ${FATFS}/option/syscall.c ${FATFS}/option/ccsbcs.c
               ${CMAKE_CURRENT_SOURCE_DIR}/FATFS/App/fatfs.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/FATFS/Target/user_diskio.c)
+              ${CMAKE_CURRENT_SOURCE_DIR}/FATFS/Target/user_diskio.c
+              ${CMAKE_CURRENT_SOURCE_DIR}/FATFS/Target/user_diskio_sdmmc.c)
 
 file(GLOB DRONECAN_SRC ${ZP_ROOT}/external/dronecan/generated/src/*.c)
 list(APPEND DRONECAN_SRC ${ZP_ROOT}/external/dronecan/libcanard/canard.c)
@@ -73,7 +74,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${FR}/include ${FR}/CMSIS_RTOS_V2 ${FR}/portable/GCC/ARM_CM4F
     ${FATFS} FATFS/App FATFS/Target
     boardfiles/utils boardfiles/model/inc boardfiles/rtos/museq boardfiles/rtos/threads/inc
-    boardfiles/drivers/barometer boardfiles/drivers/can_controller boardfiles/drivers/fft
+    boardfiles/drivers/barometer boardfiles/drivers/can_controller boardfiles/drivers/fft boardfiles/drivers/filesystem
     boardfiles/drivers/gps boardfiles/drivers/imu boardfiles/drivers/iwdg
     boardfiles/drivers/logger boardfiles/drivers/mathutils boardfiles/drivers/motor
     boardfiles/drivers/power_module boardfiles/drivers/queue boardfiles/drivers/rangefinder

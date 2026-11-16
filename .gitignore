@@ -24,3 +24,5 @@ Release-quad/
 
 # python virtual environment
 venv/
+
+sim/out/
