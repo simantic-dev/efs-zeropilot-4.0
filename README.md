@@ -10,31 +10,38 @@ Custom flight controller autopilot system by WARG (Waterloo Aerial Robotics Grou
 ## Run it in the simulator
 
 ```sh
-git clone https://github.com/simantic-dev/efs-zeropilot-4.0 && cd efs-zeropilot-4.0
-sim/build.sh    # once: builds the plane firmware
-./demo          # boots it on the simulated STM32H753 with every peer attached
+sim/build.sh    # once, separate step: builds the plane firmware
+./demo          # boots it on the simulated STM32H753 and prints the decoded MAVLink (about 70 s wall for 20 virtual s)
 ```
 
-You need Simantic's `sim` 0.10.0 or newer on your `PATH`:
+![Decoded telemetry from the simulated ZeroPilot run](media/zeropilot-demo.gif)
 
-```sh
-curl -fsSL https://simantic.com/install | sh
+```mermaid
+flowchart LR
+  mcu["STM32H753IITX<br/>ZeroPilot 4.0 plane (unmodified)"]
+  gps1(["GPS 1<br/>gps_peer.py"]) -- "USART6 230400: UBX NAV-PVT" --- mcu
+  gps2(["GPS 2<br/>gps_peer.py"]) -- "USART3 115200: UBX ACKs" --- mcu
+  imu0(["IMU 0<br/>icm42688_peer.py"]) -- "SPI1 CS PC4: accel/gyro FIFO" --- mcu
+  imu1(["IMU 1<br/>icm42688_peer.py"]) -- "SPI1 CS PC5: accel/gyro FIFO" --- mcu
+  power(["Power module<br/>ina228_peer.py"]) -- "I2C1 0x45: VBUS/current" --- mcu
+  baro(["Barometer<br/>icp20100_peer.py"]) -- "I2C2 0x63: pressure" --- mcu
+  rangefinder(["Rangefinder<br/>tf02pro_peer.py"]) -- "I2C3 0x10: distance frames" --- mcu
+  rc(["RC receiver<br/>crsf_peer.py"]) -- "UART4 420000: CRSF RC_CHANNELS" --- mcu
+  can(["DroneCAN node<br/>dronecan_peer.py"]) -- "FDCAN1: UAVCAN NodeStatus" --- mcu
+  safety(["Safety button<br/>safety_switch_peer.py"]) -- "PH12: held 6.0 s to 8.5 s" --- mcu
+  card(["SD card<br/>make_card.sh image"]) -- "SDMMC1: logs/system0.log" --- mcu
+  mcu -- "USART1 57600: MAVLink v2 telemetry" --- gcs(["Ground station<br/>gcs_peer.py"])
+  mcu -- "TIM1 PWM: servo outputs" --- act(["Actuators<br/>tim_actuator_peer.py"])
+  act --- plant(["Plant<br/>zp_plant.py, kinematic"])
 ```
 
-Also needed: the Arm GNU toolchain (`arm-none-eabi-gcc`), `ninja`, `mtools` (`brew install mtools`), and
-cmake 3.x. Upstream `zeropilot4.0/hwbuild.bash` passes `-Werror` to cmake, which cmake 4 rejects, so put a
-3.x cmake first on `PATH` (for example a venv with `pip install "cmake>=3.28,<4"`). `sim/run.sh` is the
-PASS/FAIL check; `./demo [seconds]` is the same run with the boot log streamed.
-
-![Boot and decoded telemetry in the simulator](media/zeropilot-boot.gif)
-
-The firmware is the unmodified plane build of these sources, running FreeRTOS on a simulated STM32H753IITX.
-The parts around it are models: the GPS receivers, IMUs, barometer, power module, rangefinder, RC receiver,
-DroneCAN node, safety button and SD card are Python peers in `sim/`, modelled at transaction level (the bytes
-on each bus, not electrical behaviour). The ground station and servo outputs are Python too, and the plant is
-kinematic, so there is no aerodynamics. `sim` is Simantic's proprietary simulator, not open source. The
-`SCALED_PRESSURE` row reads 0.0 hPa in this run; that is a known gap in the sim, listed in
-[`sim/README.md`](sim/README.md).
+The firmware is the unmodified plane build of these sources, running FreeRTOS on the simulated STM32H753IITX.
+The GPS receivers, IMUs, barometer, power module, rangefinder, RC receiver, DroneCAN node, safety button, SD card,
+ground station and servo outputs are Python peers in `sim/`, modelled at transaction level (the bytes on each bus,
+not electrical behaviour). The plant is kinematic, so there is no aerodynamics. `sim` is Simantic's proprietary
+simulator, not open source; install it with `curl -fsSL https://simantic.com/install | sh` (0.10.0 or newer).
+Also needed: the Arm GNU toolchain, `ninja`, `mtools` and cmake 3.x. Known gap: the barometer reads 0.0 hPa in
+this run (`SCALED_PRESSURE`), listed in [`sim/README.md`](sim/README.md).
 
 ## Repo Setup
 
