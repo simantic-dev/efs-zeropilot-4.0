@@ -6,11 +6,11 @@ Set Height 740
 Set FontSize 16
 Set Padding 18
 Set Framerate 15
-Set PlaybackSpeed 4
+Set PlaybackSpeed 11
 Env PS1 "$ "
 Hide
 Type 'export PATH="$HOME/.local/bin:$PATH" && cd "$(git rev-parse --show-toplevel)" && clear' Enter
 Show
 Type "./demo" Enter
-Wait+Screen@240s /valid frames/
-Sleep 12s
+Wait+Screen@900s /valid frames/
+Sleep 44s
