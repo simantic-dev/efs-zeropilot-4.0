@@ -14,6 +14,7 @@ FMT = {
     30: ("<I6f", "time_ms roll pitch yaw rollspeed pitchspeed yawspeed"),
     36: ("<I8HB", "time_us s1 s2 s3 s4 s5 s6 s7 s8 port"),
     65: ("<I18HBB", "time_ms " + " ".join(f"c{k}" for k in range(1, 19)) + " chancount rssi"),
+    147: ("<iih10HhBBBb", "mAh Wh_x100 temp_cdegC " + " ".join(f"v{k}" for k in range(10)) + " current_cA id func type remaining"),
     132: ("<IHHHBBBB", "time_ms min_cm max_cm cur_cm type id orient cov"),
 }
 
@@ -63,6 +64,9 @@ def summary(d, mid):
         return "ch1-8 " + " ".join(str(d[f'c{k}']) for k in range(1, 9))
     if mid == 132:
         return f"{d['cur_cm']/100:.2f} m"
+    if mid == 147:
+        mv = sum(d[f'v{k}'] for k in range(10) if d[f'v{k}'] not in (0, 0xFFFF))
+        return f"{mv/1000:.2f} V {d['current_cA']/100:.2f} A {d['mAh']} mAh {d['temp_cdegC']/100:.2f} C"
     if mid == 0:
         return f"base_mode 0x{d['base_mode']:02x} ({'ARMED' if d['base_mode'] & 0x80 else 'disarmed'})"
     if mid == 27:

@@ -130,7 +130,9 @@ plus two build-only commits from `feature/h753-cmake`, plus three lines in `stm3
 - **SCALED_PRESSURE reads 0.0 hPa:** all 69 frames in the 20 s run. The barometer peer does answer the
   firmware's 6-byte PRESS_DATA reads (363 in the run, raw bytes decoding to 100.4 kPa).
   `AttitudeManager` copies `baroData` into the message without looking at `readData()`'s return
-  value, so frames sent on a tick with no new sample carry zeros. From reading the source; not traced.
+  value, so frames sent on a tick with no new sample carry zeros. Traced on sim 0.10.1: the burst reads keep
+  coming every ~40 ms after the kernel starts, and every SCALED_PRESSURE payload is zero past `time_ms`.
+  This is a firmware bug, not a simulator gap.
 - **JSBSim run does not fly a trimmed aircraft:** RC sticks are constant (throttle channel 1000) and the stock
   Cessna 172 is not this UAV's airframe, so the firmware's ATTITUDE shows it tumbling. That is the plant and the
   stick script, not a finding about the firmware. The firmware's servo outputs stayed at 1500/1490/1000/1500

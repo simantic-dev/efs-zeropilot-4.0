@@ -42,8 +42,8 @@ The GPS receivers, IMUs, barometer, power module, rangefinder, RC receiver, Dron
 ground station and servo outputs are Python peers in `sim/`, modelled at transaction level (the bytes on each bus,
 not electrical behaviour). The plant is kinematic, so there is no aerodynamics. `sim` is Simantic's proprietary
 simulator, not open source; install it with `curl -fsSL https://simantic.com/install | sh` (0.10.0 or newer).
-Also needed: the Arm GNU toolchain, `ninja`, `mtools` and cmake 3.x. Known gap: the barometer reads 0.0 hPa in
-this run (`SCALED_PRESSURE`), listed in [`sim/README.md`](sim/README.md).
+Also needed: the Arm GNU toolchain, `ninja`, `mtools` and cmake. `SCALED_PRESSURE` reads 0.0 hPa because of a firmware bug the simulator exposed:
+the attitude manager sends the barometer struct without checking `readData()`, see [`sim/README.md`](sim/README.md).
 
 ## Repo Setup
 
