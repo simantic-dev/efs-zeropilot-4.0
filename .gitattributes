@@ -5,3 +5,4 @@
 *.bash text eol=lf
 *.zsh text eol=lf
 demo text eol=lf
+*.gif binary
