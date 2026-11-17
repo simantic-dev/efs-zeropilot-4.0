@@ -1,3 +1,5 @@
+> **[Simantic](https://simantic.com)** runs this firmware on simulated hardware, no board needed. Try it at [simantic.com](https://simantic.com).
+
 # ZeroPilot 4.0
 
 > **This fork:** [`sim/`](sim/README.md) runs this firmware on a simulated STM32H753 with every sensor,
