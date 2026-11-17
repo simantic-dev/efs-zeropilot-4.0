@@ -13,4 +13,4 @@ mkdir -p out
   | grep --line-buffered -E 'allocated node id|bad crc|Elapsed'
 python3 view.py out/out.txt > out/view.txt
 awk '/^STATUSTEXT$/{exit} 1' out/view.txt
-tail -1 out/view.txt
+echo "done: ${1:-20} virtual s, $(tail -1 out/view.txt | cut -d' ' -f1) CRC-valid MAVLink frames decoded from USART1"

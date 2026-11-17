@@ -11,10 +11,12 @@ Custom flight controller autopilot system by WARG (Waterloo Aerial Robotics Grou
 
 ```sh
 sim/build.sh    # once, separate step: builds the plane firmware
-./demo          # boots it on the simulated STM32H753 and prints the decoded MAVLink (about 70 s wall for 20 virtual s)
+./demo          # boots it on the simulated STM32H753 and prints the decoded MAVLink (20 virtual s; 2.5 to 3.5 minutes of wall clock on a heavily loaded laptop)
 ```
 
 ![Decoded telemetry from the simulated ZeroPilot run](media/zeropilot-demo.gif)
+
+The GIF is sped up 16x.
 
 ```mermaid
 flowchart LR
