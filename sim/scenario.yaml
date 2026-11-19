@@ -16,7 +16,7 @@ machines:
   dut:
     mcu: STM32H753IITX
     overlay: sdcard.board
-    elf: ../stm32h753iitx/build-h753/stm32h753iitx.elf
+    elf: fw/stm32h753iitx.elf
     parts:
       - { name: gpspeer1,    type: uart-device, baud: 230400, script: gps_peer.py }
       - { name: gpspeer2,    type: uart-device, baud: 115200, script: gps_peer.py }
