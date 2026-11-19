@@ -2,6 +2,10 @@
 
 # ZeroPilot 4.0
 
+<!-- simantic-banner -->
+> **Run this firmware with no hardware.** [Simantic](https://simantic.com) simulates the whole board, peripherals, sensors and buses included. Try it free at **[simantic.com](https://simantic.com)**, or run it locally: `curl -fsSL https://simantic.com/install | sh`
+
+
 > **This fork:** [`sim/`](sim/README.md) runs this firmware on a simulated STM32H753 with every sensor,
 > the SD card and a ground station attached, no hardware needed.
 
