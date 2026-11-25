@@ -13,7 +13,7 @@ CRC-valid frames), and the card after the run, with the firmware's own `logs/sys
 
 ![ZeroPilot MAVLink, animated](screenshots/zeropilot.gif)
 
-*Re-run on `sim` 0.10.8 (build 64f89c38), 2026-11-25, kinematic plant, 20 s of virtual time in 42 s of wall time (about 2.1 s per virtual second, loaded laptop): all ten MAVLink message types decoded with valid CRCs, `logs/system0.log` on the card, no fault. Animation from `out/out.txt` (the firmware's own MAVLink on USART1: pitch falls to about -9 deg, GPS fix 3 from 6.3 s, servo outputs), drawn by `sim/make_gif.py out/out.txt "sim 0.10.8"`.*
+*Re-run on `sim` 0.10.8 (build 64f89c38), 2026-11-25, kinematic plant, 20 s of virtual time in 42 s of wall time (about 2.1 s per virtual second, loaded laptop): all ten MAVLink message types decoded with valid CRCs, `logs/system0.log` on the card, no fault. Animation from `out/out.txt` (the firmware's own MAVLink on USART1: pitch falls to about -9 deg, GPS fix 3 from 6.3 s, servo outputs), drawn by `python3 sim/make_gif.py out/out.txt screenshots/zeropilot.gif 0.10.8` (1280x720 dashboard, 12 fps, playback 1.33x, Pillow + ffmpeg; `sim/gifkit.py`).*
 
 ![Attitude, GPS fix and servo outputs against virtual time](screenshots/signals.png)
 
