@@ -11,6 +11,10 @@ No board, no bench. Backend: Simantic's `sim` 0.10.0 (build f219eb31), which run
 *Kinematic-plant run, 20 virtual s: the MAVLink the firmware sends on USART1, decoded by `view.py` (776
 CRC-valid frames), and the card after the run, with the firmware's own `logs/system0.log` on it.*
 
+![ZeroPilot MAVLink, animated](screenshots/zeropilot.gif)
+
+*Re-run on `sim` 0.10.8 (build 64f89c38), 2026-11-25, kinematic plant, 20 s of virtual time in 42 s of wall time (about 2.1 s per virtual second, loaded laptop): all ten MAVLink message types decoded with valid CRCs, `logs/system0.log` on the card, no fault. Animation from `out/out.txt` (the firmware's own MAVLink on USART1: pitch falls to about -9 deg, GPS fix 3 from 6.3 s, servo outputs), drawn by `sim/make_gif.py out/out.txt "sim 0.10.8"`.*
+
 ![Attitude, GPS fix and servo outputs against virtual time](screenshots/signals.png)
 
 *Same run: the firmware's ATTITUDE (pitch moves from 0 to about -9 deg, the IMU peer's tilt, and back toward -6), GPS_RAW_INT fix and
